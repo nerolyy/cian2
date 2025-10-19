@@ -1,10 +1,9 @@
-<?php ini_set('display_errors', 1); error_reporting(E_ALL); ?>
 <?php include __DIR__ . '/includes/header.php'; ?>
 <?php include __DIR__ . '/includes/db.php'; ?>
 <?php
-// Resolve image URL relative to app root from header ($appRoot)
+
 function assetUrl($path) {
-    global $appRoot; // defined in includes/header.php
+    global $appRoot; 
     if (!$path) return '';
     $path = str_replace('\\\\', '/', $path);
     $path = str_replace('\\', '/', $path);
@@ -25,7 +24,7 @@ function assetUrl($path) {
     <div class="row g-4 mt-3">
         <div class="col-12 col-lg-8">
             <?php
-            // Build filters first to reuse for stats
+           
             $where = [];
             $params = [];
             if (!empty($_GET['purpose'])) { $where[] = 'purpose = :purpose'; $params[':purpose'] = $_GET['purpose']; }
@@ -34,7 +33,7 @@ function assetUrl($path) {
             if (!empty($_GET['min_area'])) { $where[] = 'area_sqm >= :min_area'; $params[':min_area'] = (float)$_GET['min_area']; }
             if (!empty($_GET['max_area'])) { $where[] = 'area_sqm <= :max_area'; $params[':max_area'] = (float)$_GET['max_area']; }
             $whereSql = $where ? (' WHERE ' . implode(' AND ', $where)) : '';
-            // Stats
+           
             $statStmt = $pdo->prepare('SELECT COUNT(*) AS cnt, AVG(price_per_month) AS avg_price FROM properties' . $whereSql);
             $statStmt->execute($params);
             $stats = $statStmt->fetch() ?: ['cnt'=>0,'avg_price'=>0];

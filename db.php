@@ -1,6 +1,5 @@
 <?php
-// Простое подключение к MySQL через PDO
-// Значения можно переопределить через переменные окружения
+
 $dbHost = getenv('DB_HOST') ?: '127.0.0.1';
 $dbPort = getenv('DB_PORT') ?: '8889';
 $dbName = getenv('DB_NAME') ?: 'sss';
@@ -15,7 +14,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES => false,
     ]);
-    // Runtime-safe migration: ensure users.phone exists
+    
     try {
         $col = $pdo->query("SHOW COLUMNS FROM `users` LIKE 'phone'")->fetch();
         if (!$col) {
@@ -37,7 +36,7 @@ try {
         if (!$col5) {
             $pdo->exec("ALTER TABLE `properties` ADD COLUMN `lessor_name` VARCHAR(190) NULL AFTER `lessor_type`");
         }
-        // Ensure property_images table
+        
         $pdo->exec("CREATE TABLE IF NOT EXISTS `property_images` (
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
             `property_id` INT UNSIGNED NOT NULL,
@@ -48,7 +47,7 @@ try {
             CONSTRAINT `fk_property_images_property` FOREIGN KEY (`property_id`) REFERENCES `properties`(`id`) ON DELETE CASCADE
         ) ENGINE=InnoDB");
 
-        // Purposes dictionary: create and seed from distinct existing values
+        
         $pdo->exec("CREATE TABLE IF NOT EXISTS `purposes` (
             `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
             `name` VARCHAR(100) NOT NULL,
@@ -61,9 +60,9 @@ try {
                 $ins = $pdo->prepare("INSERT IGNORE INTO purposes (name) VALUES (:n)");
                 foreach ($distinct as $r) { $ins->execute([':n'=>$r['purpose']]); }
             }
-        } catch (Throwable $e) { /* ignore */ }
+        } catch (Throwable $e) {  }
     } catch (Throwable $migrE) {
-        // Silent: do not block app if cannot migrate
+       
     }
 } catch (Throwable $e) {
     http_response_code(500);

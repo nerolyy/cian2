@@ -1,15 +1,15 @@
--- Create database (run as a user with permission)
+
 CREATE DATABASE IF NOT EXISTS `sss` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `sss`;
 
--- Properties table
+
 CREATE TABLE IF NOT EXISTS `properties` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL,
   `address` VARCHAR(255) NOT NULL,
   `metro` VARCHAR(100) DEFAULT NULL,
   `floor` VARCHAR(50) DEFAULT NULL,
-  `purpose` VARCHAR(100) DEFAULT NULL, -- аптека, салон красоты и т.д.
+  `purpose` VARCHAR(100) DEFAULT NULL, 
   `area_sqm` DECIMAL(10,2) NOT NULL,
   `price_per_month` INT UNSIGNED NOT NULL,
   `image_url` VARCHAR(500) DEFAULT NULL,
@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS `properties` (
 
 
 
--- Users and roles
 CREATE TABLE IF NOT EXISTS `users` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(190) NOT NULL UNIQUE,
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
--- Property images (gallery)
+
 CREATE TABLE IF NOT EXISTS `property_images` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `property_id` INT UNSIGNED NOT NULL,
@@ -50,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `property_images` (
   CONSTRAINT `fk_property_images_property` FOREIGN KEY (`property_id`) REFERENCES `properties`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- Dictionary of purposes
+
 CREATE TABLE IF NOT EXISTS `purposes` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
@@ -58,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `purposes` (
   UNIQUE KEY `uq_name` (`name`)
 ) ENGINE=InnoDB;
 
--- Seed default purposes
+
 INSERT IGNORE INTO `purposes` (`name`) VALUES
 ('свободное назначение'),
 ('салон красоты'),
@@ -70,7 +69,7 @@ INSERT IGNORE INTO `purposes` (`name`) VALUES
 ('офис'),
 ('склад');
 
--- Seed purposes
+
 
 
 

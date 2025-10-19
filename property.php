@@ -1,7 +1,7 @@
 <?php include __DIR__ . '/includes/header.php'; ?>
 <?php include __DIR__ . '/includes/db.php'; ?>
 <?php
-// Resolve image URL relative to app root from header ($appRoot)
+
 function assetUrl($path) {
     global $appRoot;
     if (!$path) return '';

@@ -16,12 +16,12 @@ if ($isEdit) {
     $stmt->execute([':id'=>$id]);
     $row = $stmt->fetch();
     if ($row) { $data = $row; }
-    // load gallery
+    
     $ig = $pdo->prepare('SELECT image_url FROM property_images WHERE property_id = :id ORDER BY sort_order ASC, id ASC');
     $ig->execute([':id'=>$id]);
     $gallery = array_map(fn($r) => $r['image_url'], $ig->fetchAll());
 }
-// Load purposes dictionary
+
 $purposeRows = $pdo->query("SELECT id, name FROM purposes ORDER BY name ASC")->fetchAll();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payload = [
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $galleryInput = trim($_POST['gallery'] ?? '');
     $galleryUrls = array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $galleryInput)), fn($u) => $u !== ''));
 
-    // Validation rules
+    
     if ($payload[':title'] === '') { $errors[] = 'Укажите заголовок'; }
     if ($payload[':address'] === '') { $errors[] = 'Укажите адрес'; }
     if ($payload[':purpose'] === '') { $errors[] = 'Выберите назначение'; }
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$errors) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute($payload);
-        // Upsert gallery
+        
         $propId = $isEdit ? $id : (int)$pdo->lastInsertId();
         if ($propId > 0) {
             $pdo->prepare('DELETE FROM property_images WHERE property_id = :id')->execute([':id'=>$propId]);

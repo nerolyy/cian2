@@ -3,7 +3,7 @@
 <?php include __DIR__ . '/../includes/auth.php'; ?>
 <?php authRequireAdmin(); ?>
 <?php
-// Handle create/update/delete
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
     if ($action === 'create') {

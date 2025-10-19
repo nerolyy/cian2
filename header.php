@@ -6,7 +6,7 @@
     <title>Снять помещение свободного назначения в Москве</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <?php
-    // Determine app root path like /sss no matter current subdir
+    
     $scriptName = $_SERVER['SCRIPT_NAME'] ?? '/';
     $segments = explode('/', trim($scriptName, '/'));
     $appRoot = '/' . ($segments[0] ?? '');
@@ -18,7 +18,7 @@
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 $currentUser = $_SESSION['user'] ?? null;
 ?>
-<header class="site-header border-bottom bg-white">
+<header class="site-header border-bottom">
     <div class="container py-3 d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <a class="navbar-brand fw-bold text-dark m-0" href="<?php echo htmlspecialchars($appRoot); ?>/index.php">Недвижимость</a>

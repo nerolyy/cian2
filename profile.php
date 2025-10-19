@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-// Refresh local $user after possible update
+
 $user = authCurrentUser();
 ?>
 <main class="container my-5" style="max-width:720px;">

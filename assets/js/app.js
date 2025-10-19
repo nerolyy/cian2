@@ -1,4 +1,4 @@
-// Chat modal handlers
+
 document.getElementById('chatModal')?.addEventListener('show.bs.modal', (e) => {
   const btn = e.relatedTarget;
   const title = btn?.getAttribute('data-prop-title') || '';
@@ -19,7 +19,7 @@ document.getElementById('chatForm')?.addEventListener('submit', function(ev){
   wrap.parentElement.scrollTop = wrap.parentElement.scrollHeight;
 });
 
-// Lightweight image slider controls
+
 window.slideNext = function(btn){
   const slider = btn.closest('.img-slider');
   if(!slider) return;

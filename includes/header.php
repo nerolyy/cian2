@@ -18,7 +18,7 @@
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
 $currentUser = $_SESSION['user'] ?? null;
 ?>
-<header class="site-header border-bottom bg-white">
+<header class="site-header border-bottom">
     <div class="container py-3 d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-3">
             <a class="navbar-brand fw-bold text-dark m-0" href="<?php echo htmlspecialchars($appRoot); ?>/index.php">Недвижимость</a>
