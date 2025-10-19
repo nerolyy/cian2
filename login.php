@@ -25,8 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a class="btn btn-outline-secondary" href="register.php">Регистрация</a>
         </div>
     </form>
-    <p class="small text-muted mt-3">Админ (seed): admin@example.com / admin123</p>
-    <p class="small text-muted">Пароль админа задается в database.sql. Измените в проде.</p>
+    
 </main>
 <?php include __DIR__ . '/includes/footer.php'; ?>
 

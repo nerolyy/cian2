@@ -112,13 +112,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </label></div>
         <div class="col-md-4"><label class="form-label">Площадь, м²<input class="form-control" type="number" step="0.1" name="area_sqm" value="<?php echo htmlspecialchars($data['area_sqm']); ?>"></label></div>
         <div class="col-md-4"><label class="form-label">Цена, ₽/мес<input class="form-control" type="number" name="price_per_month" value="<?php echo htmlspecialchars($data['price_per_month']); ?>"></label></div>
-        <div class="col-md-4"><label class="form-label">Фото (главное URL)<input class="form-control" name="image_url" value="<?php echo htmlspecialchars($data['image_url']); ?>"></label></div>
+        <div class="col-md-4"><label class="form-label">Фото (основное)<input class="form-control" name="image_url" value="<?php echo htmlspecialchars($data['image_url']); ?>"></label></div>
         <div class="col-md-4"><label class="form-label">Телефон контакта<input class="form-control" name="contact_phone" value="<?php echo htmlspecialchars($data['contact_phone'] ?? ''); ?>" placeholder="+7 900 000-00-00"></label></div>
-        <div class="col-12"><label class="form-label">Галерея (по одному URL в строке)
-            <textarea class="form-control" name="gallery" rows="5" placeholder="https://...jpg&#10;https://...jpg"><?php echo htmlspecialchars(implode("\n", $gallery)); ?></textarea>
+        <div class="col-12"><label class="form-label">Галерея фоток 
+            <textarea class="form-control" name="gallery" rows="5" placeholder="фотки добавляются через данный знак /"><?php echo htmlspecialchars(implode("\n", $gallery)); ?></textarea>
         </label></div>
         <div class="col-12"><label class="form-label">Описание
-            <textarea class="form-control" name="description" rows="6" placeholder="Опишите объект: планировки, коммуникации, условия, особенности..."><?php echo htmlspecialchars($data['description'] ?? ''); ?></textarea>
+            <textarea class="form-control" name="description" rows="6" placeholder=""><?php echo htmlspecialchars($data['description'] ?? ''); ?></textarea>
         </label></div>
         <div class="col-12 d-flex gap-2">
             <button class="btn btn-primary" type="submit"><?php echo $isEdit ? 'Сохранить' : 'Создать'; ?></button>

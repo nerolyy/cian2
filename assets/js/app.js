@@ -44,32 +44,7 @@ window.slidePrev = function(btn){
   slides[prev].classList.add('active');
 }
 
-// Map rendering with Leaflet + Nominatim geocoding (basic, no API key)
-window.initMapAndLoadMarkers = async function(appRoot){
-  const mapEl = document.getElementById('offerMap');
-  if (!mapEl || !window.L) return;
-  const map = L.map('offerMap').setView([55.751244, 37.618423], 11);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(map);
-  try{
-    const url = (appRoot || '') + '/api/properties.php' + window.location.search;
-    const res = await fetch(url);
-    const data = await res.json();
-    const items = data.items || [];
-    for (const it of items) {
-      const q = encodeURIComponent(it.address||'');
-      if(!q) continue;
-      const geoUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${q}&limit=1`;
-      const gr = await fetch(geoUrl, { headers: { 'Accept-Language': 'ru' } });
-      const gj = await gr.json();
-      if (gj && gj[0]) {
-        const lat = parseFloat(gj[0].lat), lon = parseFloat(gj[0].lon);
-        const m = L.marker([lat, lon]).addTo(map);
-        const price = (it.price_per_month||0).toLocaleString('ru-RU');
-        m.bindPopup(`<strong>${escapeHtml(it.title||'')}</strong><br>${escapeHtml(it.address||'')}<br>${price} ₽/мес`);
-      }
-    }
-  }catch(e){ /* silent */ }
-}
+
 
 function escapeHtml(s){
   return String(s||'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
