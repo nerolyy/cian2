@@ -7,6 +7,7 @@
         <h2 class="m-0">Админ-панель</h2>
         <div class="d-flex gap-2">
             <a class="btn btn-outline-secondary" href="purposes.php">Добавление назначений для помещений</a>
+            <a class="btn btn-outline-secondary" href="metro_stations.php">Станции метро</a>
             <a class="btn btn-outline-secondary" href="users.php">Пользователи</a>
             <a class="btn btn-primary" href="property_edit.php">Добавить объект</a>
         </div>

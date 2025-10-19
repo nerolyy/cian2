@@ -86,6 +86,12 @@ if (!$p) {
                     <button class="btn btn-primary" type="button" onclick="this.nextElementSibling?.classList.remove('d-none'); this.classList.add('d-none');">Показать телефон</button>
                     <div class="fw-semibold d-none"><?php echo htmlspecialchars($p['contact_phone'] ?: 'Телефон не указан'); ?></div>
                     <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#chatModal" data-prop-title="<?php echo htmlspecialchars($p['title']); ?>">Написать сообщение</button>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <button class="btn btn-outline-secondary" type="button" id="savePropertyBtn" data-property-id="<?php echo (int)$p['id']; ?>">
+                            <i class="bi bi-heart me-2"></i>
+                            <span class="btn-text">Сохранить</span>
+                        </button>
+                    <?php endif; ?>
                 </div>
                 <div class="small text-muted mt-3">
                     <?php if (($p['lessor_type'] ?? 'owner') === 'company'): ?>Компания<?php else: ?>Собственник<?php endif; ?>
@@ -100,6 +106,98 @@ if (!$p) {
     </div>
     <?php endif; ?>
 </main>
+
+<?php if (isset($_SESSION['user'])): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const saveBtn = document.getElementById('savePropertyBtn');
+    const propertyId = saveBtn.dataset.propertyId;
+    
+    
+    checkSavedStatus();
+    
+    
+    saveBtn.addEventListener('click', function() {
+        toggleSaved();
+    });
+    
+    function checkSavedStatus() {
+        fetch(`api/check_saved.php?property_id=${propertyId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    updateButtonState(data.is_saved);
+                }
+            })
+            .catch(error => console.error('Ошибка проверки статуса:', error));
+    }
+    
+    function toggleSaved() {
+        const isCurrentlySaved = saveBtn.classList.contains('saved');
+        
+        const url = 'api/saved_properties.php';
+        const method = isCurrentlySaved ? 'DELETE' : 'POST';
+        const body = JSON.stringify({ property_id: parseInt(propertyId) });
+        
+        fetch(url, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: body
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateButtonState(!isCurrentlySaved);
+                showNotification(data.message, 'success');
+            } else {
+                showNotification(data.error, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            showNotification('Произошла ошибка', 'error');
+        });
+    }
+    
+    function updateButtonState(isSaved) {
+        const icon = saveBtn.querySelector('i');
+        const text = saveBtn.querySelector('.btn-text');
+        
+        if (isSaved) {
+            saveBtn.classList.remove('btn-outline-secondary');
+            saveBtn.classList.add('btn-danger', 'saved');
+            icon.className = 'bi bi-heart-fill me-2';
+            text.textContent = 'Сохранено';
+        } else {
+            saveBtn.classList.remove('btn-danger', 'saved');
+            saveBtn.classList.add('btn-outline-secondary');
+            icon.className = 'bi bi-heart me-2';
+            text.textContent = 'Сохранить';
+        }
+    }
+    
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-triangle'} me-2"></i>
+            ${message}
+        `;
+        
+        document.body.appendChild(notification);
+        
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+});
+</script>
+<?php endif; ?>
+
 <?php include __DIR__ . '/includes/footer.php'; ?>
 
 
