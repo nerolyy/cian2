@@ -13,6 +13,16 @@
     $appRoot = '/' . ($segments[0] ?? '');
     ?>
     <link rel="stylesheet" href="<?php echo htmlspecialchars($appRoot); ?>/css/style.css">
+    <?php
+    // Загружаем конфигурацию reCAPTCHA только если файл существует
+    $recaptchaConfigPath = __DIR__ . '/recaptcha_config.php';
+    if (file_exists($recaptchaConfigPath)) {
+        require_once $recaptchaConfigPath;
+        if (defined('RECAPTCHA_SITE_KEY') && RECAPTCHA_SITE_KEY !== 'YOUR_SITE_KEY_HERE') {
+            echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+        }
+    }
+    ?>
 </head>
 <body>
 <?php

@@ -1,5 +1,4 @@
 <?php
-
 $dbHost = getenv('DB_HOST') ?: '127.0.0.1';
 $dbPort = getenv('DB_PORT') ?: '8889';
 $dbName = getenv('DB_NAME') ?: 'sss';

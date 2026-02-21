@@ -1,6 +1,7 @@
 <?php include 'includes/header.php'; ?>
 <?php include 'includes/db.php'; ?>
 <?php include 'includes/auth.php'; ?>
+<?php require_once __DIR__ . '/includes/recaptcha.php'; ?>
 <?php authRequireLogin(); ?>
 
 <?php
@@ -18,6 +19,16 @@ $errors = [];
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Проверка reCAPTCHA (только если настроена)
+    if (isRecaptchaConfigured()) {
+        $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+        $recaptchaResult = verifyRecaptcha($recaptchaResponse, getClientIp());
+        
+        if (!$recaptchaResult['success']) {
+            $errors[] = 'Пожалуйста, подтвердите, что вы не робот';
+        }
+    }
+    
     $payload = [
         ':title' => trim($_POST['title'] ?? ''),
         ':address' => trim($_POST['address'] ?? ''),
@@ -270,6 +281,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                       placeholder="Опишите особенности объекта, удобства, расположение и другие важные детали..."><?php echo htmlspecialchars($data['description'] ?? ''); ?></textarea>
                         </div>
 
+                        <?php
+                        // Отображаем виджет reCAPTCHA, если настроена
+                        if (isRecaptchaConfigured()) {
+                            echo '<div class="col-12 mt-3">';
+                            echo '<div class="g-recaptcha" data-sitekey="' . htmlspecialchars(RECAPTCHA_SITE_KEY) . '"></div>';
+                            echo '</div>';
+                        }
+                        ?>
                         
                         <div class="col-12 mt-4">
                             <div class="d-flex gap-3">
