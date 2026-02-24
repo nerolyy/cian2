@@ -57,3 +57,7 @@ define('RECAPTCHA_SECRET_KEY', '6LdXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
 
 Если вы хотите временно отключить проверку reCAPTCHA, просто не заполняйте ключи в `includes/recaptcha_config.php` (оставьте значения по умолчанию). Виджет не будет отображаться, но форма будет работать без проверки.
 
+
+
+
+

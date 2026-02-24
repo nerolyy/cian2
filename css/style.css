@@ -29,11 +29,21 @@
     -ms-backface-visibility: hidden;
     backface-visibility: hidden;
 }
-html,body{
+html {
+    height: 100%;
+}
+
+body{
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
     background-attachment: fixed;
     color:var(--text);
     position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    padding-bottom: 0 !important;
 }
 
 
@@ -294,6 +304,34 @@ form.row.g-2.mb-3 .btn {
 .container {
     position: relative;
     z-index: 1;
+}
+
+/* Прилипание футера к низу страницы */
+body > header.site-header {
+    flex-shrink: 0;
+}
+
+body > main {
+    flex: 1 0 auto;
+    min-height: 0;
+}
+
+body > footer.site-footer,
+.site-footer {
+    flex-shrink: 0 !important;
+    margin-top: auto !important;
+    width: 100% !important;
+}
+
+/* Дополнительная проверка для прилипания футера */
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 

@@ -1,4 +1,4 @@
-<footer class="site-footer border-top mt-5 bg-white">
+<footer class="site-footer border-top bg-white">
     <div class="container py-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
         <div class="text-muted small">Кристина Коворк</div>
         <div class="d-flex gap-3 small">
